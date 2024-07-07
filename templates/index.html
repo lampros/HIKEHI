@@ -1,4 +1,10 @@
-<h1>Hello World!</h1>
-<p>This is my first webpage!!!</p>
+{% extends 'base.html' %}
 
-<p>My name is {{first_name|striptags}}</p>
+{% block content %}
+
+    <h1>Hello World!</h1>
+    <p>This is my first webpage!!!</p>
+
+    <p>My name is {{first_name|striptags}}</p>
+
+{% endblock %}
