@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, Email
@@ -116,6 +116,45 @@ def name():
                            email = email,
                            age = age,
                            form = form)
+
+@app.route('/users')
+def list_users():
+    users = Users.query.all()
+    return render_template('list_users.html', users=users)
+
+@app.route('/edit')
+def list_edit_users():
+    users = Users.query.all()
+    flash("Click to edit!")
+    return render_template('list_edit_users.html', users=users)
+
+
+# Update Database Record
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    form = UserForm() 
+    name_to_update = Users.query.get_or_404(id)
+    if request.method == 'POST':
+        name_to_update.name = request.form['name']
+        name_to_update.email = request.form['email']
+        name_to_update.age = request.form['age']
+        try:
+            db.session.commit()
+            flash("User Updated Successfully!")
+            return render_template('update.html',
+                                   form=form,
+                                   name_to_update=name_to_update)
+        except:
+            flash("Error!")
+            return render_template('update.html',
+                                   form=form,
+                                   name_to_update=name_to_update)
+    else:
+        return render_template('update.html',
+                                   form=form,
+                                   name_to_update=name_to_update)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

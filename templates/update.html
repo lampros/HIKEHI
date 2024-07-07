@@ -14,23 +14,23 @@
 {% if name %}
     <h1>Hello {{name}} , {{email}}, {{age}}!! </h1>
 {% else %}
-    <h1>add user:</h1>
+    <h1>update user:</h1>
     <br/>
     <div class="shadow p-3 mb-5 bg-body rounded">
-    <form method="POST">
+    <form action="/update/{{name_to_update.id}}" method="POST">
         {{ form.hidden_tag() }}
 
         {{ form.name.label(class="form-label") }}
 
-        {{ form.name(class="form-control") }}
+        {{ form.name(class="form-control", value =name_to_update.name) }}
 
         {{ form.email.label(class="form-label") }}
 
-        {{ form.email(class="form-control") }}
+        {{ form.email(class="form-control", value =name_to_update.email) }}
 
         {{ form.age.label(class="form-label") }}
 
-        {{ form.age(class="form-control") }}
+        {{ form.age(class="form-control", value =name_to_update.age) }}
 
         <br/>
 
@@ -42,7 +42,7 @@
 <table class="table table-hover table-bordered table-striped">
 {% for our_user in our_users %}
     <tr>
-    <td>{{our_user.id}} </td>  <td>{{our_user.name}}</td>  
+    <td>{{our_user.id}}</td>  <td>{{our_user.name}}</td>  
     <td>{{our_user.email}}  <td>{{our_user.age}}</td>
     </tr>
 
